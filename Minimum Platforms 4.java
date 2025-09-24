@@ -47,30 +47,54 @@ public class Solution {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
+        // Read number of trains
         int n = sc.nextInt();
+
+        // Arrays to store arrival and departure times
         int[] arrival = new int[n];
         int[] departure = new int[n];
-        for(int i=0;i<n;i++){
+
+        // Read arrival times
+        for (int i = 0; i < n; i++) {
             arrival[i] = sc.nextInt();
         }
-        for(int i=0;i<n;i++){
+
+        // Read departure times
+        for (int i = 0; i < n; i++) {
             departure[i] = sc.nextInt();
         }
+
+        // Sort both arrays to process events in order
         Arrays.sort(arrival);
         Arrays.sort(departure);
-        int max = 0 , platform = 1;
-        int i = 1 , j = 0;
-        while(i<n && j<n){
-            if(arrival[i]<=departure[j]){
-                platform++;
-                i++;
+
+        // 'platform' tracks current platforms needed
+        // 'max' stores the maximum platforms required at any time
+        int max = 0, platform = 1;
+
+        // Pointers for arrival and departure arrays
+        int i = 1, j = 0;
+
+        // Process until all trains are considered
+        while (i < n && j < n) {
+            // Case 1: Next train arrives before the earliest train departs
+            if (arrival[i] <= departure[j]) {
+                platform++;  // Need an extra platform
+                i++;         // Move to next arrival
+            } 
+            // Case 2: A train departs before the next arrival
+            else {
+                platform--;  // One platform is freed
+                j++;         // Move to next departure
             }
-            else{
-                platform--;
-                j++;
-            }
-            max = Math.max(max,platform);
+
+            // Update the maximum platforms required
+            max = Math.max(max, platform);
         }
+
+        // Print the final result
         System.out.print(max);
     }
 }
+
